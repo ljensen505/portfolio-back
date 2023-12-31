@@ -7,8 +7,8 @@ on:
     branches: ["main"]
 
 env:
-  DB_USER: root
-  DB_PASS:
+  DB_USER: test_user
+  DB_PASS: test_pass
   DB_NAME: test_portfolio
   DB_HOST: localhost
 
@@ -42,11 +42,16 @@ jobs:
           sudo systemctl start mysql
           sleep 10
           systemctl status mysql.service
+          mysql -u root --skip-password
+          mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'root-password';"
+          mysql -u root -p'root-password' -e "CREATE USER IF NOT EXISTS ${{ env.DB_USER }} IDENTIFIED BY '${{ env.DB_PASS }}';"
+          mysql -u root -p'root-password' -e "GRANT ALL PRIVILEGES ON *.* TO '${{ env.DB_USER }}'@'localhost';"
+          ls
 
       - name: Create MySQL database and tables
         run: |
           mysql -h ${{ env.DB_HOST }} -u ${{ env.DB_USER }} -p${{ env.DB_PASS }} -e "CREATE DATABASE IF NOT EXISTS ${{ env.DB_NAME }};"
-          mysql -h ${{ env.DB_HOST }} -u ${{ env.DB_USER }} -p${{ env.DB_PASS }} ${{ env.DB_NAME }} < path/to/create_tables.sql
+          mysql -h ${{ env.DB_HOST }} -u ${{ env.DB_USER }} -p${{ env.DB_PASS }} ${{ env.DB_NAME }} < create_tables.sql
 
       - name: Install dependencies
         run: |
