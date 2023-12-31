@@ -61,9 +61,6 @@ jobs:
         run: |
           black --check .
 
-      - name: Verify Database Existence
-        run: mysql -h ${{ env.DB_HOST }} -u ${{ env.DB_USER }} -p${{ env.DB_PASS }} -e "SHOW DATABASES;"
-
       - name: Test with pytest
         run: |
           export DB_USER="${{ env.DB_USER }}"

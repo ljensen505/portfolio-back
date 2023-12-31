@@ -32,7 +32,11 @@ def connect_db():
 
     try:
         return mysql.connector.connect(
-            host=host, user=user, password=password, database=database
+            host=host,
+            user=user,
+            password=password,
+            database=database,
+            auth_plugin="mysql_native_password",
         )
     except Exception as e:
         print(f"err connecting to db: {e}")
