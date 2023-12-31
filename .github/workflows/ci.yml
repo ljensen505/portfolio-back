@@ -41,9 +41,6 @@ jobs:
         run: |
           sudo systemctl start mysql
           sleep 10
-          systemctl status mysql.service
-          mysql -u root -proot
-          mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'root-password';"
           mysql -u root -p'root-password' -e "CREATE USER IF NOT EXISTS ${{ env.DB_USER }} IDENTIFIED BY '${{ env.DB_PASS }}';"
           mysql -u root -p'root-password' -e "GRANT ALL PRIVILEGES ON *.* TO '${{ env.DB_USER }}'@'localhost';"
           ls
