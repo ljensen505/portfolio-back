@@ -44,7 +44,7 @@ jobs:
 
       - name: Create MySQL database and tables
         run: |
-          mysql -u root -p${{ env.DB_PASS }} -e "CREATE DATABASE IF NOT EXISTS ${{ env.DB_NAME }};"
+          mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS ${{ env.DB_NAME }};"
           mysql -h ${{ env.DB_HOST }} -u ${{ env.DB_USER }} -p${{ env.DB_PASS }} ${{ env.DB_NAME }} < create_tables.sql
 
       - name: Install dependencies
