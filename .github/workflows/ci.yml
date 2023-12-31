@@ -62,8 +62,8 @@ jobs:
           black --check .
       - name: Test with pytest
         run: |
-          export DB_USER="${{ env.DB_USER }}"
-          export DB_PASS="${{ env.DB_PASS }}"
+          export DB_USER="root"
+          export DB_PASS="root"
           export DB_NAME="${{ env.DB_NAME }}"
           export DB_HOST="${{ env.DB_HOST }}"
           pytest -s
