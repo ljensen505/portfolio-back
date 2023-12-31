@@ -32,7 +32,7 @@ def connect_db():
 
     try:
         return mysql.connector.connect(
-            host="127.0.0.1",
+            host=host,
             user=user,
             password=password,
             database=database,
