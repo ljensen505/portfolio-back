@@ -28,8 +28,6 @@ def connect_db():
             detail="err reading env vars",
         )
 
-    print(host, user, password, database)
-
     try:
         return mysql.connector.connect(
             host=host,
