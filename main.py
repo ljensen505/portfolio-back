@@ -1,49 +1,15 @@
 import os
 
-import mysql.connector
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+from db import mydb
+from models import About, Project
+from queries import get_about, get_projects
 
-class About(BaseModel):
-    name: str
-    email: str
-    bio: str
-    github: str
-    linkedin: str
-
-
-def connect_db():
-    load_dotenv()
-    host = os.getenv("DB_HOST")
-    user = os.getenv("DB_USER")
-    password = os.getenv("DB_PASS")
-    database = os.getenv("DB_NAME")
-
-    if None in (host, user, password, database):
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="err reading env vars",
-        )
-
-    try:
-        return mysql.connector.connect(
-            host=host,
-            user=user,
-            password=password,
-            database=database,
-            auth_plugin="mysql_native_password",
-        )
-    except Exception as e:
-        print(f"err connecting to db: {e}")
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="err connecting to db",
-        )
-
-
+load_dotenv(override=True)
 app = FastAPI()
 
 origins = [
@@ -63,8 +29,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-mydb = connect_db()
-
 
 @app.get("/", status_code=status.HTTP_200_OK)
 async def root():
@@ -73,27 +37,23 @@ async def root():
 
 @app.get("/about", status_code=status.HTTP_200_OK)
 async def about() -> About:
-    cursor = mydb.cursor(dictionary=True)
-    cursor.execute("SELECT name, email, bio, github, linkedin FROM self")
-    data = {key: val for key, val in cursor.fetchone().items()}  # type: ignore
-
-    if not data:
+    try:
+        return get_about()
+    except Exception as e:
+        print(f"err getting about: {e}")
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="database error"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"database error: {e}",
         )
-
-    return About(**data)
 
 
 @app.get("/projects", status_code=status.HTTP_200_OK)
-async def projects() -> list[dict]:
-    cursor = mydb.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM projects")
-    data = [dict(proj) for proj in cursor.fetchall()]  # type: ignore
-    if not data:
+async def projects() -> list[Project]:
+    try:
+        return get_projects()
+    except Exception as e:
+        print(f"err getting projects: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="err retrieving from db",
+            detail=f"database error: {e}",
         )
-
-    return data
