@@ -9,7 +9,7 @@ from db import mydb
 from models import About, Project
 from queries import get_about, get_projects
 
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 
 load_dotenv(override=True)
 app = FastAPI()
