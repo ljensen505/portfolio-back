@@ -9,6 +9,8 @@ from db import mydb
 from models import About, Project
 from queries import get_about, get_projects
 
+__version__ = "0.1.0"
+
 load_dotenv(override=True)
 app = FastAPI()
 
@@ -32,7 +34,16 @@ app.add_middleware(
 
 @app.get("/", status_code=status.HTTP_200_OK)
 async def root():
-    return {"welcome": "backend api for my portfolio"}
+    available_routes = [
+        "/",
+        "/about",
+        "/projects",
+    ]
+    return {
+        "welcome": "backend api for lucasjensen.me",
+        "version": __version__,
+        "routes": available_routes,
+    }
 
 
 @app.get("/about", status_code=status.HTTP_200_OK)

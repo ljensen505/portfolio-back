@@ -10,8 +10,15 @@ client = TestClient(app)
 def test_root():
     response = client.get("/")
     assert response.status_code == 200
-    body = response.json()
-    assert body == {"welcome": "backend api for my portfolio"}
+    body: dict[str, str] = response.json()
+    welcome = body["welcome"]
+    version = body["version"]
+    major, minor, patch = version.split(".")
+    routes = body["routes"]
+    assert welcome == "backend api for lucasjensen.me"
+    for v in [major, minor, patch]:
+        assert v.isnumeric()
+    assert len(routes) >= 3
 
 
 def test_about():
