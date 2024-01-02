@@ -5,22 +5,14 @@ from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+import queries
+from __version__ import __version__
+from helpers import origins
 from models import About, Project
-from queries import get_about, get_projects
-
-__version__ = "0.1.8"
 
 load_dotenv(override=True)
 app = FastAPI()
 
-origins = [
-    "http://localhost",
-    "https://localhost",
-    "http://localhost:8000",
-    "https://localhost:8000",
-    "http://localhost:3000",
-    "https://localhost:3000",
-]
 
 app.add_middleware(
     CORSMiddleware,
@@ -48,7 +40,7 @@ async def root():
 @app.get("/about", status_code=status.HTTP_200_OK)
 async def about() -> About:
     try:
-        return get_about()
+        return queries.get_about()
     except Exception as e:
         print(f"err getting about: {e}")
         raise HTTPException(
@@ -60,9 +52,45 @@ async def about() -> About:
 @app.get("/projects", status_code=status.HTTP_200_OK)
 async def projects() -> list[Project]:
     try:
-        return get_projects()
+        return queries.get_projects()
     except Exception as e:
         print(f"err getting projects: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"database error: {e}",
+        )
+
+
+@app.get("/projects/{project_id}", status_code=status.HTTP_200_OK)
+async def project(project_id: int) -> Project:
+    try:
+        return queries.get_project(project_id)
+    except Exception as e:
+        print(f"err getting projects: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"database error: {e}",
+        )
+
+
+@app.post("/projects", status_code=status.HTTP_201_CREATED)
+async def post_project(project: Project) -> Project:
+    try:
+        return queries.create_project(project)
+    except Exception as e:
+        print(f"err creating project: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"database error: {e}",
+        )
+
+
+@app.delete("/projects/{project_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_project(project_id: int):
+    try:
+        return queries.delete_project(project_id)
+    except Exception as e:
+        print(f"err deleting project: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"database error: {e}",
