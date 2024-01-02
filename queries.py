@@ -12,6 +12,36 @@ def get_projects():
     return projects
 
 
+def get_project(project_id: int):
+    db = connect_db()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM projects WHERE id=%s", (project_id,))
+    data = cursor.fetchone()
+    db.close()
+    return Project(**data)  # type: ignore
+
+
+def create_project(project: Project):
+    db = connect_db()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute(
+        "INSERT INTO projects (name, description, source, live) VALUES (%s, %s, %s, %s)",
+        (project.name, project.description, project.source, project.live),
+    )
+    db.commit()
+    project.id = cursor.lastrowid
+    db.close()
+    return project
+
+
+def delete_project(project_id: int):
+    db = connect_db()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("DELETE FROM projects WHERE id=%s", (project_id,))
+    db.commit()
+    db.close()
+
+
 def get_about():
     db = connect_db()
     cursor = db.cursor(dictionary=True)

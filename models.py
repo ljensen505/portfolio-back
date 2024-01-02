@@ -10,7 +10,7 @@ class About(BaseModel):
 
 
 class Project(BaseModel):
-    id: int
+    id: int | None = None
     name: str
     description: str
     source: str | None = None
