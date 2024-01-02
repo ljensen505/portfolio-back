@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from models import About, Project
 from queries import get_about, get_projects
 
-__version__ = "0.1.6"
+__version__ = "0.1.7"
 
 load_dotenv(override=True)
 app = FastAPI()
