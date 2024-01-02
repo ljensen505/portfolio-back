@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from fastapi import HTTPException, status
 
 
-def connect_db():
+def connect_db() -> mysql.connector.MySQLConnection:
     load_dotenv(override=True)
     host = os.getenv("DB_HOST")
     user = os.getenv("DB_USER")
@@ -25,13 +25,10 @@ def connect_db():
             password=password,
             database=database,
             auth_plugin="mysql_native_password",
-        )
+        )  # type: ignore
     except Exception as e:
         print(f"err connecting to db: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="err connecting to db",
         )
-
-
-mydb = connect_db()
