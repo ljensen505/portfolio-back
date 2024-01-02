@@ -5,11 +5,10 @@ from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from db import mydb
 from models import About, Project
 from queries import get_about, get_projects
 
-__version__ = "0.1.4"
+__version__ = "0.1.5"
 
 load_dotenv(override=True)
 app = FastAPI()
