@@ -2,7 +2,7 @@ from db import connect_db
 from models import About, Project
 
 
-def get_projects():
+def get_projects() -> list[Project]:
     db = connect_db()
     cursor = db.cursor(dictionary=True)
     cursor.execute("SELECT * FROM projects")
@@ -12,16 +12,17 @@ def get_projects():
     return projects
 
 
-def get_project(project_id: int):
+def get_project(project_id: int) -> Project | None:
     db = connect_db()
     cursor = db.cursor(dictionary=True)
     cursor.execute("SELECT * FROM projects WHERE id=%s", (project_id,))
     data = cursor.fetchone()
     db.close()
-    return Project(**data)  # type: ignore
+
+    return None if data is None else Project(**data)  # type: ignore
 
 
-def create_project(project: Project):
+def create_project(project: Project) -> Project:
     db = connect_db()
     cursor = db.cursor(dictionary=True)
     cursor.execute(
@@ -34,7 +35,7 @@ def create_project(project: Project):
     return project
 
 
-def delete_project(project_id: int):
+def delete_project(project_id: int) -> None:
     db = connect_db()
     cursor = db.cursor(dictionary=True)
     cursor.execute("DELETE FROM projects WHERE id=%s", (project_id,))
@@ -42,7 +43,7 @@ def delete_project(project_id: int):
     db.close()
 
 
-def get_about():
+def get_about() -> About:
     db = connect_db()
     cursor = db.cursor(dictionary=True)
     cursor.execute("SELECT name, email, bio, github, linkedin FROM self")

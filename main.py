@@ -1,17 +1,18 @@
 import os
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, Security, status
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 
 import queries
 from __version__ import __version__
 from helpers import origins
 from models import About, Project
+from utils import VerifyToken
 
 load_dotenv(override=True)
 app = FastAPI()
+auth = VerifyToken()
 
 
 app.add_middleware(
@@ -63,18 +64,27 @@ async def projects() -> list[Project]:
 
 @app.get("/projects/{project_id}", status_code=status.HTTP_200_OK)
 async def project(project_id: int) -> Project:
+    project = queries.get_project(project_id)
+
     try:
-        return queries.get_project(project_id)
+        project = queries.get_project(project_id)
+
     except Exception as e:
         print(f"err getting projects: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"database error: {e}",
         )
+    if project is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"project with id {project_id} not found",
+        )
+    return project
 
 
 @app.post("/projects", status_code=status.HTTP_201_CREATED)
-async def post_project(project: Project) -> Project:
+async def post_project(project: Project, auth_result=Security(auth.verify)) -> Project:
     try:
         return queries.create_project(project)
     except Exception as e:
@@ -86,7 +96,13 @@ async def post_project(project: Project) -> Project:
 
 
 @app.delete("/projects/{project_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_project(project_id: int):
+async def delete_project(project_id: int, auth_result=Security(auth.verify)):
+    project = queries.get_project(project_id)
+    if project is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"project with id {project_id} not found",
+        )
     try:
         return queries.delete_project(project_id)
     except Exception as e:

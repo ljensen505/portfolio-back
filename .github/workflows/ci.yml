@@ -11,6 +11,8 @@ env:
   DB_PASS: test_pass
   DB_NAME: test_portfolio
   DB_HOST: 127.0.0.1
+  CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+  CLIENT_ID: ${{ secrets.CLIENT_ID }}
 
 permissions:
   contents: read
