@@ -41,5 +41,5 @@ def get_token() -> str:
 
     data = res.read()
     body = json.loads(data.decode("utf-8"))
-    print(body)
+
     return body["access_token"]

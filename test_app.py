@@ -58,7 +58,7 @@ def test_post_projects():
         json=project,
         headers={"Authorization": f"Bearer {token}"},
     )
-    print(response.json())
+
     assert response.status_code == 201
     p_id = response.json()["id"]
 
