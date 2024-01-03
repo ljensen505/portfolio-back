@@ -1,10 +1,10 @@
-from pprint import pprint
-
 from fastapi.testclient import TestClient
 
+from helpers import get_token
 from main import app
 
 client = TestClient(app)
+token = get_token()
 
 
 def test_root():
@@ -53,7 +53,12 @@ def test_post_projects():
         "source": "github.com/test",
         "live": "test.com",
     }
-    response = client.post("/projects", json=project)
+    response = client.post(
+        "/projects",
+        json=project,
+        headers={"Authorization": f"Bearer {token}"},
+    )
+
     assert response.status_code == 201
     p_id = response.json()["id"]
 
@@ -79,7 +84,10 @@ def test_delete_project():
     body = response.json()
     p_id = body[-1]["id"]
 
-    response = client.delete(f"/projects/{p_id}")
+    response = client.delete(
+        f"/projects/{p_id}",
+        headers={"Authorization": f"Bearer {token}"},
+    )
     assert response.status_code == 204
 
     response = client.get("/projects")
