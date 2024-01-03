@@ -10,7 +10,7 @@ from helpers import origins
 from models import About, Project
 from utils import VerifyToken
 
-load_dotenv(override=True)
+load_dotenv()
 app = FastAPI()
 auth = VerifyToken()
 

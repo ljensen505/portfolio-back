@@ -6,7 +6,7 @@ from fastapi import HTTPException, status
 
 
 def connect_db() -> mysql.connector.MySQLConnection:
-    load_dotenv(override=True)
+    load_dotenv()
     host = os.getenv("DB_HOST")
     user = os.getenv("DB_USER")
     password = os.getenv("DB_PASS")

@@ -16,7 +16,7 @@ def get_token() -> str:
     import http.client
     import json
 
-    load_dotenv(override=True)
+    load_dotenv()
 
     client_id = os.getenv("CLIENT_ID")
     client_secret = os.getenv("CLIENT_SECRET")
