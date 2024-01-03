@@ -38,6 +38,8 @@ def get_token() -> str:
     conn.request("POST", "/oauth/token", payload, headers)
 
     res = conn.getresponse()
+
     data = res.read()
     body = json.loads(data.decode("utf-8"))
+    print(body)
     return body["access_token"]
