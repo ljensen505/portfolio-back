@@ -6,7 +6,7 @@ origins = [
     "http://localhost",
     "http://localhost:3000",
     "https://localhost:3000",
-    "https://lucasjensen.me/"
+    "https://lucasjensen.me/",
 ]
 
 
