@@ -100,3 +100,9 @@ def test_delete_project():
     assert response.status_code == 200
     body = response.json()
     assert not any([p.get("id") == p_id for p in body])
+
+
+def test_get_static_file():
+    response = client.get("/static/resume.pdf")
+    assert response.status_code == 200
+    assert response.headers["Content-Type"] == "application/pdf"
