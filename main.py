@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Security, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 import queries
 from __version__ import __version__
@@ -23,6 +24,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 
 @app.get("/", status_code=status.HTTP_200_OK)
 async def root():
@@ -30,6 +33,8 @@ async def root():
         "/",
         "/about",
         "/projects",
+        "/static/resume.pdf",
+        "/static/favicon.png",
     ]
     return {
         "welcome": "backend api for lucasjensen.me",

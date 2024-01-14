@@ -21,18 +21,55 @@ CREATE TABLE `projects` (
     `name` VARCHAR(255) NOT NULL,
     `description` TEXT NOT NULL,
     `source` VARCHAR(255),
-    `live` VARCHAR(255)
+    `live` VARCHAR(255),
+    `is_self_hosted` BOOLEAN NOT NULL
 );
-INSERT INTO `projects` (`name`, `description`, `source`, `live`)
+INSERT INTO `projects` (
+        `name`,
+        `description`,
+        `source`,
+        `live`,
+        `is_self_hosted`
+    )
 VALUES (
-        'Chess',
-        'A GUI for playing chess on your computer, online, against a friend. Consumes the Chess API.',
-        'https://github.com/ljensen505/ChessPvP',
-        NULL
+        'Portfolio Backend',
+        'A RESTful API for my portfolio website. Consumed by the portfolio frontend. Built with FastAPI and MySQL. Hosted on a Raspberry Pi in my living room.',
+        'https://github.com/ljensen505/portfolio-back',
+        'https://api.lucasjensen.me/',
+        TRUE
+    ),
+    (
+        'Portfolio Frontend',
+        'The frontend for my portfolio website (this very site!). Consumes the portfolio backend. Built with React and Typescript. Hosted on a Raspberry Pi in my living room.',
+        NULL,
+        'https://lucasjensen.me/',
+        TRUE
+    ),
+    (
+        'Escape From Disco Love',
+        'An escape room game that unfolds across three environments: a dive bar, a 1970s disco club, and an upscale rooftop bar. Players face a 30-minute time limit to break free. As they explore, a variety of interactive objects and specific items become essential tools in solving puzzles.\nBuilt with Unity and C#, Escape from Disco Love is a 3D game that can be played natively on Windows or Mac OS, or through a browser using WebGL. Built for OSU Capstone Fall 2023 with Joshua Harris, Thomas McNutt, Daniel Joseph, and Jerrod Lepper',
+        NULL,
+        'https://efdl.lucasjensen.me/',
+        TRUE
+    ),
+    (
+        'The Grapefruits Duo',
+        'An artist website for a local chamber music duo. Built from scratch using Flask and sqlite. Includes a custom CMS and auth with auth0.',
+        'https://github.com/ljensen505/thegrapefruitsduo',
+        'https://thegrapefruitsduo.com/',
+        TRUE
     ),
     (
         'Chess API',
         'A RESTful API for playing chess online. Consumed by the Chess GUI.',
         'https://github.com/ljensen505/ChessAPI',
-        'https://api.chess.lucasjensen.me/'
+        'https://api.chess.lucasjensen.me/',
+        TRUE
+    ),
+    (
+        'Chess',
+        'A GUI for playing chess on your computer, online, against a friend. Consumes the Chess API.',
+        'https://github.com/ljensen505/ChessPvP',
+        NULL,
+        FALSE
     )
