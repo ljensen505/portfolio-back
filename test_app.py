@@ -52,6 +52,7 @@ def test_post_projects():
         "description": "test description",
         "source": "github.com/test",
         "live": "test.com",
+        "is_self_hosted": False,
     }
     response = client.post(
         "/projects",
@@ -76,6 +77,11 @@ def test_post_projects():
     assert body["source"] == project["source"]
     assert body["live"] == project["live"]
     assert body["id"] == p_id
+
+    client.delete(
+        f"/projects/{p_id}",
+        headers={"Authorization": f"Bearer {token}"},
+    )
 
 
 def test_delete_project():

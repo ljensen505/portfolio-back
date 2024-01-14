@@ -26,8 +26,14 @@ def create_project(project: Project) -> Project:
     db = connect_db()
     cursor = db.cursor(dictionary=True)
     cursor.execute(
-        "INSERT INTO projects (name, description, source, live) VALUES (%s, %s, %s, %s)",
-        (project.name, project.description, project.source, project.live),
+        "INSERT INTO projects (name, description, source, live, is_self_hosted) VALUES (%s, %s, %s, %s, %s)",
+        (
+            project.name,
+            project.description,
+            project.source,
+            project.live,
+            project.is_self_hosted,
+        ),
     )
     db.commit()
     project.id = cursor.lastrowid

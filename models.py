@@ -15,3 +15,4 @@ class Project(BaseModel):
     description: str
     source: str | None = None
     live: str | None = None
+    is_self_hosted: bool = False
