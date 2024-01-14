@@ -8,6 +8,8 @@ origins = [
     "https://localhost:3000",
     "https://lucasjensen.me/",
     "https://lucasjensen.me",
+    "https://www.lucasjensen.me/",
+    "https://www.lucasjensen.me",
 ]
 
 
