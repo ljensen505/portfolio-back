@@ -47,6 +47,28 @@ def test_project():
 
 
 def test_post_projects():
+    p_id = post_project()
+
+    client.delete(
+        f"/projects/{p_id}",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+
+
+def delete_project(p_id: int):
+    response = client.delete(
+        f"/projects/{p_id}",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    assert response.status_code == 204
+
+    response = client.get("/projects")
+    assert response.status_code == 200
+    body = response.json()
+    assert not any([p.get("id") == p_id for p in body])
+
+
+def post_project() -> int:
     project = {
         "name": "test project",
         "description": "test description",
@@ -61,7 +83,8 @@ def test_post_projects():
     )
 
     assert response.status_code == 201
-    p_id = response.json()["id"]
+    p_id = int(response.json()["id"])
+    assert isinstance(p_id, int)
 
     response = client.get("/projects")
     assert response.status_code == 200
@@ -78,31 +101,23 @@ def test_post_projects():
     assert body["live"] == project["live"]
     assert body["id"] == p_id
 
-    client.delete(
-        f"/projects/{p_id}",
-        headers={"Authorization": f"Bearer {token}"},
-    )
+    return p_id
 
 
 def test_delete_project():
-    response = client.get("/projects")
-    assert response.status_code == 200
-    body = response.json()
-    p_id = body[-1]["id"]
-
-    response = client.delete(
-        f"/projects/{p_id}",
-        headers={"Authorization": f"Bearer {token}"},
-    )
-    assert response.status_code == 204
-
-    response = client.get("/projects")
-    assert response.status_code == 200
-    body = response.json()
-    assert not any([p.get("id") == p_id for p in body])
+    p_id = post_project()
+    all_projects = client.get("/projects").json()
+    assert any([p.get("id") == p_id for p in all_projects])
+    delete_project(p_id)
+    all_projects = client.get("/projects").json()
+    assert not any([p.get("id") == p_id for p in all_projects])
 
 
 def test_get_static_file():
     response = client.get("/static/resume.pdf")
     assert response.status_code == 200
     assert response.headers["Content-Type"] == "application/pdf"
+
+    response = client.get("/static/favicon.png")
+    assert response.status_code == 200
+    assert response.headers["Content-Type"] == "image/png"

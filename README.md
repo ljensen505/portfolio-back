@@ -1,8 +1,8 @@
-### Backend for lucasjensen.me
+# Backend for lucasjensen.me
 
 build with FastAPI and MySQL
 
-### Setup
+## Setup
 
 - create and activate virtual environment
 - install requirements
