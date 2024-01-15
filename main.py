@@ -90,6 +90,13 @@ async def project(project_id: int) -> Project:
 
 @app.post("/projects", status_code=status.HTTP_201_CREATED)
 async def post_project(project: Project, auth_result=Security(auth.verify)) -> Project:
+    user_sub, test_sub = queries.get_subs().values()
+    jwt_sub = auth_result.get("sub")
+    if jwt_sub not in [user_sub, test_sub]:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="unauthorized",
+        )
     try:
         return queries.create_project(project)
     except Exception as e:
@@ -102,7 +109,15 @@ async def post_project(project: Project, auth_result=Security(auth.verify)) -> P
 
 @app.delete("/projects/{project_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_project(project_id: int, auth_result=Security(auth.verify)):
+    user_sub, test_sub = queries.get_subs().values()
+    jwt_sub = auth_result.get("sub")
+    if jwt_sub not in [user_sub, test_sub]:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="unauthorized",
+        )
     project = queries.get_project(project_id)
+
     if project is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

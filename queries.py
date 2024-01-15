@@ -56,3 +56,12 @@ def get_about() -> About:
     data = {key: val for key, val in cursor.fetchone().items()}  # type: ignore
     db.close()
     return About(**data)
+
+
+def get_subs() -> dict[str, str]:
+    db = connect_db()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT auth0_sub, test_sub FROM self")
+    data = {key: val for key, val in cursor.fetchone().items()}  # type: ignore
+    db.close()
+    return data
