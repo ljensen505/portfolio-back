@@ -53,13 +53,20 @@ VALUES (
     (
         'Portfolio Frontend',
         'The frontend for my portfolio website (this very site!). Consumes the portfolio backend. Built with React and Typescript. Hosted on a Raspberry Pi in my living room.',
-        NULL,
+        'https://github.com/ljensen505/portfolio-front',
         'https://lucasjensen.me/',
         TRUE
     ),
     (
+        'Portfolio CI/CD',
+        'A CI/CD pipeline for my portfolio website and used to auto build and deploy most projects listec here. Built with FastAPI and Bash, and heavily reliant upon GitHub Actions and Webhooks. Pipelines for each project vary but genarally utilize service files and systemd.',
+        'https://github.com/ljensen505/portfolio-pipeline',
+        NULL,
+        TRUE
+    ),
+    (
         'Escape From Disco Love',
-        'An escape room game that unfolds across three environments: a dive bar, a 1970s disco club, and an upscale rooftop bar. Players face a 30-minute time limit to break free. As they explore, a variety of interactive objects and specific items become essential tools in solving puzzles.\nBuilt with Unity and C#, Escape from Disco Love is a 3D game that can be played natively on Windows or Mac OS, or through a browser using WebGL. Built for OSU Capstone Fall 2023 with Joshua Harris, Thomas McNutt, Daniel Joseph, and Jerrod Lepper',
+        'An escape room game that unfolds across three environments: a dive bar, a 1970s disco club, and an upscale rooftop bar. Players face a 30-minute time limit to break free. As they explore, a variety of interactive objects and specific items become essential tools in solving puzzles.\nBuilt with Unity and C#, Escape from Disco Love is a 3D game that can be played natively on Windows or Mac OS, or through a browser using WebGL. Built for OSU Capstone Fall 2023 with Joshua Harris, Thomas McNutt, Daniel Joseph, and Jerrod Lepper.\nSource code is private but available upon request.',
         NULL,
         'https://efdl.lucasjensen.me/',
         TRUE
