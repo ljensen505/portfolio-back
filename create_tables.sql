@@ -89,6 +89,6 @@ VALUES (
         'Chess',
         'A GUI for playing chess on your computer, online, against a friend. Consumes the Chess API.',
         'https://github.com/ljensen505/ChessPvP',
-        NULL,
+        'https://chess.lucasjensen.me/',
         FALSE
     )
