@@ -82,7 +82,7 @@ VALUES (
         'Chess API',
         'A RESTful API for playing chess online. Consumed by the Chess GUI.',
         'https://github.com/ljensen505/ChessAPI',
-        'https://api.chess.lucasjensen.me/',
+        'https://api.chess.v2.lucasjensen.me/',
         TRUE
     ),
     (
