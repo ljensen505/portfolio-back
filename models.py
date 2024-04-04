@@ -6,7 +6,6 @@ class About(BaseModel):
     email: str
     bio: str
     github: str
-    linkedin: str
 
 
 class Project(BaseModel):

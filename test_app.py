@@ -25,7 +25,7 @@ def test_about():
     response = client.get("/about")
     assert response.status_code == 200
     body = response.json()
-    vals = ["name", "email", "bio", "github", "linkedin"]
+    vals = ["name", "email", "bio", "github"]
     assert all([k in body for k in vals])
 
 

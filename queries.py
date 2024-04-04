@@ -52,7 +52,7 @@ def delete_project(project_id: int) -> None:
 def get_about() -> About:
     db = connect_db()
     cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT name, email, bio, github, linkedin FROM self")
+    cursor.execute("SELECT name, email, bio, github FROM self")
     data = {key: val for key, val in cursor.fetchone().items()}  # type: ignore
     db.close()
     return About(**data)
