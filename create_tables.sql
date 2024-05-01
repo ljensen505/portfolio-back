@@ -41,17 +41,10 @@ INSERT INTO `projects` (
         `is_self_hosted`
     )
 VALUES (
-        'The Grapefruits Duo Frontend',
-        'An artist website for a local chamber music duo. Built from scratch using Flask and sqlite. Includes a custom CMS and auth with auth0.',
-        'https://github.com/ljensen505/thegrapefruitsduo-front',
+        'The Grapefruits Duo',
+        'An artist website for a local chamber music duo. Built with MySQL, FastAPI, and React with TypeScript.',
+        'https://github.com/ljensen505/TheGrapefruitsDuo',
         'https://thegrapefruitsduo.com/',
-        TRUE
-    ),
-    (
-        'The Grapefruits Duo Backend',
-        'A RESTful API for The Grapefruits Duo website. Consumed by the frontend. Built with FastAPI and MySQL.',
-        'https://github.com/ljensen505/thegrapefruitsduo-back',
-        'https://api.tgd.lucasjensen.me/',
         TRUE
     ),
     (
